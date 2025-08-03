@@ -1,0 +1,72 @@
+# Python Geral
+# ========================
+# Bytecode compilado
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Arquivos de log e temporários (genéricos para várias libs)
+*.log
+*.tmp
+*.temp
+temp/
+log/
+logs/
+
+# Arquivos de ambiente virtual
+# ========================
+venv/
+.venv/
+env/
+.env/
+
+# Ferramentas de Análise de Código e Testes
+# ========================
+.pytest_cache/  # Pytest
+.mypy_cache/    # Mypy (verificação de tipos)
+.ruff_cache/    # Ruff (linter/formatter)
+.coverage       # Coverage.py (testes)
+
+# Jupyter Notebook
+# ========================
+.ipynb_checkpoints/
+
+# Arquivos de Dados e Saídas
+# ========================
+# Para garantir que arquivos de imagem gerados pelo Plotly/Matplotlib não sejam versionados
+# Exemplo para seus arquivos JPEG
+graficos_casos_por_regioes.jpeg
+*.jpeg
+*.jpg
+*.png
+*.pdf
+*.svg
+
+# Para evitar que arquivos HTML gerados pelo Plotly sejam versionados (se você não os compartilha)
+*.html
+
+# Arquivos de Configuração Sensíveis ou Locais
+# ========================
+.env  # Variáveis de ambiente
+
+# IDEs e Editores
+# ========================
+
+# VS Code
+.vscode/
+
+# Histórico de Shell (se gerado no diretório do projeto)
+*.history
+
+# Dependências (se não estiverem em venv, mas em um diretório como node_modules)
+# ========================
+node_modules/
+
+# Caminhos de Executáveis e Configurações de Ferramentas Locais
+# ========================
+# Ignora executáveis de ferramentas dentro do ambiente virtual,
+# útil se, por algum motivo, não estivessem cobertos por venv/
+venv/bin/jupyter-lab
+venv/bin/activate
+venv/bin/python
