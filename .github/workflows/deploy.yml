@@ -1,37 +1,41 @@
-name: Deploy Jupyter Notebook to GitHub Pages
+name: Publicar Notebook no GitHub Pages
 
 on:
   push:
     branches:
-      - main
+      - main # Altere para 'master' se seu branch principal for master
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
-      contents: write 
-      pages: write    
+    # Permissões cruciais para o GITHUB_TOKEN poder escrever no branch gh-pages
+    permissions:
+      contents: write
+      pages: write
       id-token: write
+
     steps:
-      - name: Checkout code
+      - name: Checkout do Código
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3'
+          python-version: '3.12'
 
-      - name: Install dependencies
+      - name: Instalar Dependências
         run: |
           python -m pip install --upgrade pip
           pip install jupyter nbconvert
 
-      - name: Convert notebook to HTML
+      - name: Converter Notebook para HTML
         run: |
-          jupyter nbconvert --to html --template classic analisador_auditoria.ipynb
+          # Converte o notebook e garante que o arquivo de saída seja 'index.html'
+          # O arquivo 'analisador_auditoria.ipynb' deve estar na raiz do seu repositório
+          jupyter nbconvert --to html --template classic analisador_auditoria.ipynb --output index.html
 
-      - name: Deploy to GitHub Pages
+      - name: Publicar no GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          publish_dir: ./ 
