@@ -6,14 +6,8 @@ on:
       - main # Altere para 'master' se seu branch principal for master
 
 jobs:
-  build-and-deploy:
+  build: # Primeiro Job: Converte o notebook e gera o artifact
     runs-on: ubuntu-latest
-    # Permissões cruciais para o GITHUB_TOKEN poder escrever no branch gh-pages
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4
@@ -21,7 +15,7 @@ jobs:
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.x' # Defina a versão do Python que seu notebook usa
 
       - name: Instalar Dependências
         run: |
@@ -30,12 +24,33 @@ jobs:
 
       - name: Converter Notebook para HTML
         run: |
-          # Converte o notebook e garante que o arquivo de saída seja 'index.html'
-          # O arquivo 'analisador_auditoria.ipynb' deve estar na raiz do seu repositório
           jupyter nbconvert --to html --template classic analisador_auditoria.ipynb --output index.html
+
+      - name: Upload Artifact (index.html) # AQUI ESTÁ A CHAVE!
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages-content # Nome do artifact (pode ser qualquer nome)
+          path: index.html           # O arquivo que será empacotado e salvo como artifact
+
+  deploy: # Segundo Job: Baixa o artifact e faz o deploy
+    needs: build # Garante que este job só rode DEPOIS que o job 'build' terminar com sucesso
+    runs-on: ubuntu-latest
+    # Permissões cruciais para o GITHUB_TOKEN poder escrever no branch gh-pages
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Download Artifact (index.html) # Baixa o artifact gerado pelo job 'build'
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages-content # Deve ser o mesmo nome do artifact no job 'build'
 
       - name: Publicar no GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./ 
+          publish_dir: ./ # Agora o 'index.html' estará aqui após o download do artifact
+          # Crie o branch 'gh-pages' se ele não existir
+          # O conteúdo do 'publish_dir' será empurrado para a raiz do branch 'gh-pages'
