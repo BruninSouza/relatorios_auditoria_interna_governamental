@@ -82,7 +82,7 @@ ative o ambiente virtual:
 
 * Windows
 ```bash
-  .\nome_do_ambiente\Scripts\activate
+  .\venv\Scripts\activate
 ```
 
 Após ativar o ambiente virtual, instale as bibliotecas necesárias para o projeto:
