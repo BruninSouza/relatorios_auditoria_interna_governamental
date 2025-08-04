@@ -60,7 +60,7 @@ Certifique-se de que seu sistema possui as seguintes ferramentas instaladas:
 Abra seu terminal ou prompt de comando e clone o repositório para sua máquina local através do comando:
 
 ```bash
-git clone https://github.com/BruninSouza/Criar-DB-LabGov.git
+git clone https://github.com/BruninSouza/relatorios_auditoria_interna_governamental.git
 ```
 
 
