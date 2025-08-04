@@ -1,8 +1,0 @@
-jupyter
-seaborn
-pandas
-matplotlib
-openpyxl
-plotly
-jupyter nbconvert
-kaleido
