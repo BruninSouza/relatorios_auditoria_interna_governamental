@@ -34,14 +34,6 @@ env/
 
 # Arquivos de Dados e Saídas
 # ========================
-# Para garantir que arquivos de imagem gerados pelo Plotly/Matplotlib não sejam versionados
-# Exemplo para seus arquivos JPEG
-graficos_casos_por_regioes.jpeg
-*.jpeg
-*.jpg
-*.png
-*.pdf
-*.svg
 
 # Para evitar que arquivos HTML gerados pelo Plotly sejam versionados (se você não os compartilha)
 *.html
