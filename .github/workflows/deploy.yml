@@ -14,13 +14,9 @@ jobs:
   deploy-book:
     runs-on: ubuntu-latest
     
-    # =======================================================
-    # SEÇÃO ADICIONADA PARA CORRIGIR O ERRO
-    # =======================================================
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    # =======================================================
 
     steps:
       - name: Checkout repository
