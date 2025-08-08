@@ -3,7 +3,6 @@ name: Deploy Jupyter Book
 on:
   push:
     branches: [main]
-
   workflow_dispatch:
 
 permissions:
@@ -23,10 +22,12 @@ jobs:
         with:
           python-version: '3.10'
 
+      # ATUALIZADO: Instala as dependências a partir do requirements.txt
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
 
+      # ATUALIZADO: Constrói o livro a partir da pasta 'notebooks'
       - name: Build Jupyter Book
         run: |
           jupyter-book build notebooks/
@@ -34,6 +35,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # ATUALIZADO: Faz o upload do artefato a partir do novo caminho de build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
