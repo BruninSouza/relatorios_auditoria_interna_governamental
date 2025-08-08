@@ -4,5 +4,6 @@ pandas
 matplotlib
 openpyxl
 plotly
-jupyter nbconvert
+jupyter 
+nbconvert
 kaleido
