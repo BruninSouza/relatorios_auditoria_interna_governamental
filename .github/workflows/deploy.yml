@@ -1,56 +1,44 @@
-name: Publicar Notebook no GitHub Pages
+name: Deploy Jupyter Book
 
 on:
   push:
-    branches:
-      - main # Altere para 'master' se seu branch principal for master
+    branches: [main]
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build: # Primeiro Job: Converte o notebook e gera o artifact
+  deploy-book:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do Código
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configurar Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x' # Defina a versão do Python que seu notebook usa
+          python-version: '3.10'
 
-      - name: Instalar Dependências
+      - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install jupyter nbconvert
+          pip install -r requirements.txt
 
-      - name: Converter Notebook para HTML
+      - name: Build Jupyter Book
         run: |
-          jupyter nbconvert --to html --template classic analisador_auditoria.ipynb --output index.html
+          jupyter-book build notebooks/
 
-      - name: Upload Artifact (index.html) # AQUI ESTÁ A CHAVE!
-        uses: actions/upload-artifact@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages-content # Nome do artifact (pode ser qualquer nome)
-          path: index.html           # O arquivo que será empacotado e salvo como artifact
+          path: notebooks/_build/html
 
-  deploy: # Segundo Job: Baixa o artifact e faz o deploy
-    needs: build # Garante que este job só rode DEPOIS que o job 'build' terminar com sucesso
-    runs-on: ubuntu-latest
-    # Permissões cruciais para o GITHUB_TOKEN poder escrever no branch gh-pages
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-
-    steps:
-      - name: Download Artifact (index.html) # Baixa o artifact gerado pelo job 'build'
-        uses: actions/download-artifact@v4
-        with:
-          name: github-pages-content # Deve ser o mesmo nome do artifact no job 'build'
-
-      - name: Publicar no GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./ # Agora o 'index.html' estará aqui após o download do artifact
-          # Crie o branch 'gh-pages' se ele não existir
-          # O conteúdo do 'publish_dir' será empurrado para a raiz do branch 'gh-pages'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

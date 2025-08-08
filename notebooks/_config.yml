@@ -1,0 +1,14 @@
+title: Relatórios de Auditoria Interna Governamental
+author: Bruno Souza
+
+execute:
+  execute_notebooks: force 
+
+repository:
+  url: https://github.com/BruninSouza/relatorios_auditoria_interna_governamental 
+  path_to_book: notebooks 
+  branch: main 
+
+html:
+  use_issues_button: true
+  use_repository_button: true

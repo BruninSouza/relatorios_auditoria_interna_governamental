@@ -7,3 +7,4 @@ plotly
 jupyter 
 nbconvert
 kaleido
+jupyter-book
